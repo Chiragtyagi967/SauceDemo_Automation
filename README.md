@@ -1,15 +1,14 @@
-
 # SauceDemo Automation Testing Project
 
 ## 1. Project Overview
 
-This project is an automation testing framework developed to test the SauceDemo e-commerce website using Python, Selenium WebDriver, and Pytest.
+This project automates the testing of the SauceDemo (Swag Labs) e-commerce website using Python, Selenium WebDriver and Pytest.
 
-The main objective is to automate important website functionalities and verify that they work as expected.
-
-The project covers login, product details, product sorting, shopping cart operations, checkout, order processing, navigation, and footer links.
+The suite contains **110 automated test cases in 8 modules**. It covers login, product listing and sorting, product details, shopping cart, checkout, order completion, the side menu and the footer.
 
 **Website:** https://www.saucedemo.com/
+
+**Latest result:** 110 passed in 557.14 s (0:09:17).
 
 ## 2. Technologies Used
 
@@ -27,27 +26,24 @@ The project covers login, product details, product sorting, shopping cart operat
 SauceDemo_Automation/
 │
 ├── config/
-│   └── config.py
+│   └── config.py              # URL, users, checkout data
 │
 ├── tests/
-│   ├── test_login.py
-│   ├── test_products.py
-│   ├── test_cart.py
-│   ├── test_checkout.py
-│   ├── test_order.py
-│   ├── test_navigation.py
-│   ├── test_product_details.py
-│   └── test_footer.py
+│   ├── test_login.py            # 15 tests
+│   ├── test_products.py         # 25 tests
+│   ├── test_product_details.py  # 5 tests
+│   ├── test_cart.py             # 20 tests
+│   ├── test_checkout.py         # 20 tests
+│   ├── test_order.py            # 15 tests
+│   ├── test_navigation.py       # 5 tests
+│   └── test_footer.py           # 5 tests
 │
 ├── utils/
-│   └── helpers.py
+│   └── helpers.py             # reusable wait/click/type/login helpers
 │
-├── screenshots/
-├── reports/
-│   └── report.html
-│
-├── venv/
-├── conftest.py
+├── screenshots/               # failure screenshots
+├── reports/                   # HTML report
+├── conftest.py                # driver fixture + failure screenshot hook
 ├── pytest.ini
 ├── requirements.txt
 └── README.md
@@ -55,191 +51,111 @@ SauceDemo_Automation/
 
 ## 4. Features Tested
 
-### 4.1 Login Testing
+### 4.1 Login (15 tests)
 - Valid login
-- Invalid username
-- Invalid password
-- Empty username
-- Empty password
-- Both fields empty
+- Invalid username and invalid password
+- Empty username, empty password, both empty
 - Locked-out user
-- Username and password case sensitivity
-- Input fields with spaces
-- Password masking
-- Login button visibility and functionality
-- Error message handling
-- Login page title
+- Username and password are case sensitive
+- Leading/trailing spaces are rejected
+- Password field is masked
+- Login button is visible and enabled
+- Error message can be closed
+- Page title is "Swag Labs"
 
-### 4.2 Product Testing
-- Products page loading
-- Products heading
-- Display of all six products
-- Product names and prices
-- Product descriptions
-- Product images
-- Add-to-cart buttons
-- Sorting products by price
-- Sorting products alphabetically
-- Default sorting option
-- Sorting dropdown options
-- Unique product names
-- Product price format
-- Product card information
+### 4.2 Products (25 tests)
+- Products page and heading load
+- 6 products with name, price, description, image and button
+- Sort by price (low to high, high to low)
+- Sort by name (A to Z, Z to A)
+- Default sort and dropdown options (4 options, selected value)
+- Names are unique, prices start with "$", descriptions not empty
+- Page stays open after sorting
 
-### 4.3 Shopping Cart Testing
-- Open shopping cart
-- Display cart heading
-- Initially empty cart
-- Add single product
-- Add multiple products
-- Verify added products
-- Verify product names and prices
-- Verify product quantity
-- Remove products
-- Update cart badge
-- Verify cart badge count
-- Remove one product from multiple products
-- Empty cart after removing products
-- Continue shopping functionality
-- Checkout button visibility
-- Checkout navigation
+### 4.3 Product Details (5 tests)
+- Details page opens
+- Name, description and price are displayed
+- Add to cart button is displayed and enabled
 
-### 4.4 Checkout Testing
-- Open checkout page
-- Verify checkout heading
-- First name field
-- Last name field
-- Postal code field
-- Display all checkout fields
-- Valid checkout information
-- Missing first name
-- Missing last name
-- Missing postal code
-- All fields empty
-- Numeric and alphanumeric input
-- Input containing spaces and special characters
-- Continue button visibility and functionality
-- Cancel checkout functionality
+### 4.4 Cart (20 tests)
+- Cart page and heading; cart empty at start
+- Add one or multiple products
+- Cart badge updates on add and remove
+- Item name, price and quantity are correct
+- Remove one or all products
+- Continue Shopping and Checkout buttons and navigation
 
-### 4.5 Order Testing
-- Open order summary page
-- Verify order summary heading
-- Display ordered product
-- Verify product name and price
-- Display payment information
-- Verify payment information
-- Display shipping information
-- Verify shipping information
-- Verify item total
-- Verify tax amount
-- Verify order total
-- Finish button visibility and functionality
-- Complete order successfully
-- Return to products page
+### 4.5 Checkout (20 tests)
+- Checkout page, heading and all fields displayed
+- Valid information moves to the overview
+- Missing first name, last name or postal code shows an error
+- All fields empty shows an error
+- Input variations: numeric, alphanumeric, spaces, special characters
+- Continue and Cancel buttons; Cancel returns to the cart
 
-### 4.6 Navigation and Menu Testing
-- Menu button visibility
-- Open navigation menu
+### 4.6 Order (15 tests)
+- Order overview page, heading, product name and price
+- Payment and shipping information
+- Item total, tax and total labels
+- Finish order shows the "Thank you" message
+- Back Home returns to products
+
+### 4.7 Navigation (5 tests)
+- Menu button is displayed and the menu opens
 - All Items navigation
-- About link visibility
-- Logout functionality
+- About link is displayed
+- Logout returns to the login page
 
-### 4.7 Product Details Testing
-- Open product details page
-- Verify product name
-- Verify product description
-- Verify product price
-- Add-to-cart button visibility and functionality
+### 4.8 Footer (5 tests)
+- Footer and copyright text are displayed
+- Twitter, Facebook and LinkedIn links are displayed
 
-### 4.8 Footer and Social Links Testing
-- Footer visibility
-- Copyright information
-- Twitter/X social link
-- Facebook social link
-- LinkedIn social link
+**Total: 110 tests**
 
-## 5. Framework Features
+## 5. Framework Design
 
-- Selenium WebDriver for browser automation.
-- Pytest for test case execution.
-- Reusable helper functions to reduce code duplication.
-- Pytest fixtures for browser setup and cleanup.
-- Explicit waits to handle page loading and element visibility.
-- Assertions to verify expected results.
-- HTML reporting using pytest-html.
-- Screenshot capture for test failures through the pytest configuration.
+- **Configuration:** shared values (URL, users, password, checkout data) are kept in `config/config.py`.
+- **Helpers:** `utils/helpers.py` provides `wait_for_element`, `click_element`, `enter_text`, `login`, `logout` and `get_error_message`, using explicit waits (10 seconds).
+- **Fixture:** `conftest.py` starts a fresh Chrome browser for every test (password-manager pop-ups disabled, window maximised) and closes it afterwards.
+- **Failure screenshots:** if a test fails, a screenshot is saved in `screenshots/` and attached to the HTML report.
 
-## 6. Test Execution
+## 6. Setup
 
-### Step 1: Activate Virtual Environment
-
-Open the project folder in CMD and execute:
-
-```cmd
-venv\Scripts\activate.bat
+```bash
+python -m venv venv
+venv\Scripts\activate
+pip install selenium==4.52.0 pytest==9.2.0 pytest-html==4.2.0
+pip freeze > requirements.txt
 ```
 
-### Step 2: Run All Test Cases
+To recreate the environment later: `pip install -r requirements.txt`
 
-```cmd
+## 7. Running the Tests
+
+Run all tests:
+
+```bash
 python -m pytest -v
 ```
 
-### Step 3: Run a Specific Test Module
+Run all tests and create the HTML report:
 
-Example:
-
-```cmd
-python -m pytest tests/test_login.py -v
-```
-
-### Step 4: Generate HTML Test Report
-
-```cmd
+```bash
 python -m pytest -v --html=reports/report.html --self-contained-html
 ```
 
-After execution, open `reports/report.html` in a browser to view the test results.
+Run one module, one keyword or one test:
 
-## 7. Test Results
+```bash
+python -m pytest tests/test_login.py
+python -m pytest -k checkout
+python -m pytest tests/test_cart.py::test_add_single_product
+```
 
-The project contains eight test modules covering the major functionalities of the SauceDemo website.
+A full run takes about 9 minutes because every test opens its own browser.
 
-**Latest full execution results:**
+## 8. Test Results
 
-| Result | Count |
-|---|---:|
-| Total collected tests | 88 |
-| Passed | 87 |
-| Failed | 1 |
-| Pass rate | 98.86% |
-
-The remaining failed test was related to verifying that multiple added products appeared in the shopping cart. It is being investigated.
-
-*Update this section after the final successful execution.*
-
-## 8. Reports and Screenshots
-
-The project uses pytest-html to generate an HTML test report.
-
-- HTML reports are stored in the `reports` folder.
-- Failure screenshots are captured through the Pytest configuration when a test fails during execution.
-- Reports help identify passed and failed test cases.
-
-## 9. Conclusion
-
-The SauceDemo Automation Testing Project demonstrates how Selenium WebDriver and Pytest can be used to automate the testing of an e-commerce website.
-
-The framework covers major application functionalities, including authentication, product management, shopping cart operations, checkout, order processing, and website navigation.
-
-It also demonstrates reusable functions, browser fixtures, explicit waits, assertions, and HTML test reporting.
-
-The project provides practical experience in software test automation and helps identify functional issues through automated test execution.
-
-## 10. Future Enhancements
-
-- Add more test scenarios for different user conditions.
-- Improve test execution stability.
-- Expand browser compatibility testing.
-- Enhance HTML reports with additional test details.
-- Integrate automated testing into a CI/CD pipeline.
+| Total | Passed | Failed | Pass rate | Time |
+|---|---|---|---|---|
+| 110 | 110 | 0 | 100% | 557.14 s |
